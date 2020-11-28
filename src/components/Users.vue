@@ -1,11 +1,7 @@
 <template>
-
-<div id="containter">
-
-    <h3> Users </h3>
-
-    <table class="table">
-        <thead>
+  <v-simple-table>
+    <template v-slot:default>
+      <thead>
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Firstname</th>
@@ -20,12 +16,11 @@
                 <td>{{user.lastname}}</td>
                 <td>{{user.email}}</td>
             </tr>
-        </tbody>
-    </table>
-    
-</div>
-
+      </tbody>
+    </template>
+  </v-simple-table>
 </template>
+
 <script>
     import axios from 'axios';
 
