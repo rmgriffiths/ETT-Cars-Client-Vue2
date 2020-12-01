@@ -5,8 +5,10 @@ import vuetify from './plugins/vuetify';
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 import Home from './components/Home.vue';
-import Users from './components/Users.vue';
-import Vehicles from './components/Vehicles.vue';
+import Users from './views/Users.vue';
+import Vehicles from './views/Vehicles.vue';
+//import NewVehicle from './components/NewVehicle.vue';
+import AddVehicle from './views/AddVehicle.vue';
 
 
 Vue.config.productionTip = false
@@ -15,7 +17,8 @@ Vue.use(VueRouter);
 const routes = [
   { path: '/', name: 'home', component: Home },
   { path: '/users', name: 'users', component: Users },
-  { path: '/vehicles', name: 'vehicles', component: Vehicles }
+  { path: '/vehicles', name: 'vehicles', component: Vehicles },
+  { path: '/addvehicle', name: 'addvehicle', component: AddVehicle }
 ];
 
 const router = new VueRouter ({

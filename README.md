@@ -23,7 +23,7 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-Needed to do the following:
+Add the following:
 
 npm install --save vue-router
 npm install axios
@@ -33,6 +33,7 @@ The following in main.js:
 
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
+Change branch
 git branch -m master main
 
 npm run serve -- --port 8081

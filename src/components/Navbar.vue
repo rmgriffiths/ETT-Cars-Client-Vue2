@@ -1,6 +1,6 @@
 <template>
     <nav>
-        <v-toolbar flat app class="grey">
+        <v-toolbar  class="grey">
             
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
             <v-toolbar-title class="text-uppercase grey -- text">
@@ -10,7 +10,7 @@
 
             <v-spacer></v-spacer>
 
-            <v-btn flat color="grey">
+            <v-btn color="grey">
                 <span>Log out</span>
                 <v-icon right>exit_to_app</v-icon>
 
@@ -20,7 +20,7 @@
         <v-navigation-drawer v-model="drawer" app class="indigo lighten-3">
             <v-list>
                 <v-subheader>MENU</v-subheader>
-                    <v-list-item-group v-model="selectedItem">
+                    <v-list-item-group >
                         <v-list-item v-for="link in links" :key="link.text" router :to="link.route">
                         <v-list-item-icon>
                             <v-icon class="white--text">{{ link.icon }}</v-icon>
@@ -36,7 +36,11 @@
 
 </template>
 <script>
+
+
     export default{
+
+
         data () {
             return {
                 drawer: false,
