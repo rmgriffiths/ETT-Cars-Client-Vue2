@@ -26,16 +26,19 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 Add the following:
 
 npm install --save vue-router
+
 npm install axios
+
 npm install --save material-design-icons-iconfont
+
 npm install sass sass-loader deepmerge -D
+
 
 The following in main.js:
 
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
-Change branch
-git branch -m master main
+Run on 8081 (access to port granted on Heroku server)
 
 npm run serve -- --port 8081
 
