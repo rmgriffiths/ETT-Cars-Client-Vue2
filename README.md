@@ -38,6 +38,7 @@ The following in main.js:
 
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
+
 Run on 8081 (access to port granted on Heroku server)
 
 npm run serve -- --port 8081
