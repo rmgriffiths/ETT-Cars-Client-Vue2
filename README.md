@@ -28,6 +28,7 @@ Add the following:
 npm install --save vue-router
 npm install axios
 npm install --save material-design-icons-iconfont
+npm install sass sass-loader deepmerge -D
 
 The following in main.js:
 

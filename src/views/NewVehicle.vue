@@ -1,13 +1,13 @@
 <template>
-  <div class="text-center">
-    <v-dialog width="600">
+  <div class="text-center" >
+    <v-dialog v-model="vehicleDialog" width="600">
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on">
           Add vehicle
         </v-btn>
       </template>
 
-      <v-card>
+      <v-card >
         <v-card-title class="headline grey lighten-2">
           Add Vehicle
         </v-card-title>
@@ -24,8 +24,8 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-            <v-btn >Cancel</v-btn>
-            <v-btn @click="postData">Save</v-btn>
+          <v-btn @click="vehicleDialog = false">Cancel</v-btn>
+          <v-btn @click="postData">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -36,12 +36,13 @@
     import axios from 'axios';
 
     export default {
-        name: "NewVehiclePosr",
+        name: "NewVehiclePost",
         data() {
             return {
-                    make: null,
-                    model: null,
-                    yearMade: null               
+              make: null,
+              model: null,
+              yearMade: null,
+              vehicleDialog: false         
             }
         },
         methods:{
@@ -51,7 +52,7 @@
                   model: this.model,
                   yearMade: this.yearMade
                 }),
-              this.newVehicle = false;  
+              this.vehicleDialog = false;  
             }
         }
     }    

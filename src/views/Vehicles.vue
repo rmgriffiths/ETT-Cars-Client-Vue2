@@ -1,60 +1,57 @@
 <template>
-<div>
-  <NewVehicleModal />
+  <v-container mb-12>
+    <v-row>
+      <v-col sm="10" offset-sm="1" md="8" offset-md="2">
+        <h2>ETT Cars</h2> 
+        <NewVehicle />
+      </v-col>
+    </v-row>
 
-  <v-simple-table>
-    <template v-slot:default>
-      <thead>
-        <tr>
-          <th class="text-left">ID</th>
-          <th class="text-left">Make</th>
-          <th class="text-left">Model</th>
-          <th class="text-left">Year</th>
-          <th class="text-left">Reg</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="item in vehicles"
-          :key="item.id"
-        >
-          <td>{{ item.id }}</td>
-          <td>{{ item.make }}</td>
-          <td>{{ item.model }}</td>
-          <td>{{ item.yearMade }}</td>
-          <td>{{ item.registration }}</td>
-        </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
-</div>
+    <v-row>
+      <v-col sm="10" offset-sm="1" md="8" offset-md="2">
+          <v-row>
+            <v-col sm="12" md="12" v-for="item in vehicles" :key="item.id">
+              <v-card outlined>
+                <v-img src="../assets/LandCruiser.jpg" height="200px"></v-img>
+                <v-card-title>{{item.make}} {{item.model}}</v-card-title>
+                <v-card-actions>
+                  <v-btn @click="deleteVehicle(item.id)">Delete</v-btn>
+
+                </v-card-actions>            
+              </v-card>
+            </v-col>
+
+          </v-row>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
     import axios from 'axios';
-    import NewVehicleModal from "./NewVehicleModal"
+    import NewVehicle from "./NewVehicle"
 
     export default {
-  components: { NewVehicleModal },
-        name: 'Vehicles',
-        data () {
-            return  {
-                vehicles: null
-            };
-        },
-        created: function () {
-            axios
-                .get('https://ettcars.herokuapp.com/api/vehicles')
-                .then (res => {
-                    this.vehicles = res.data;
-                    console.log(this.vehicles);
-                })
-        },
-        methods: {
-            newVehicle() {
-                this.$router.push('/newvehicle');
-            }
+    components: { 
+      NewVehicle
+      },
+      data () {
+        return  {
+          vehicles: null
+        };
+      },
+      created: function () {
+        axios
+          .get('https://ettcars.herokuapp.com/api/vehicles')
+          .then (res => {
+              this.vehicles = res.data;
+          })
+      },
+      methods:{
+        deleteVehicle(id) {
+          axios.delete("https://ettcars.herokuapp.com/api/vehicles/" + id)
         }
+      }
     }
 </script>
 <style>
