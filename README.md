@@ -33,6 +33,12 @@ npm install --save material-design-icons-iconfont
 
 npm install sass sass-loader deepmerge -D
 
+npm install --save bcrypt-nodejs
+
+npm install --save bcryptjs
+
+npm install --save aws-sdk
+
 ### Add the following in main.js:
 
 import 'material-design-icons-iconfont/dist/material-design-icons.css'

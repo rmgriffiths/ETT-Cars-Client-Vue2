@@ -7,6 +7,7 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import Home from './views/Home.vue';
 import Users from './views/Users.vue';
 import Vehicles from './views/Vehicles.vue';
+import AllVehicles from './views/AllVehicles.vue';
 
 Vue.config.productionTip = false
 Vue.use(VueRouter);
@@ -14,7 +15,8 @@ Vue.use(VueRouter);
 const routes = [
   { path: '/', name: 'home', component: Home },
   { path: '/users', name: 'users', component: Users },
-  { path: '/vehicles', name: 'vehicles', component: Vehicles }
+  { path: '/vehicles', name: 'vehicles', component: Vehicles },
+  { path: '/allvehicles', name: 'allvehicles', component: AllVehicles }
 ];
 
 const router = new VueRouter ({
