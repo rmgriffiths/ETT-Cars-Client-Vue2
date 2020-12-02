@@ -35,8 +35,6 @@ npm install sass sass-loader deepmerge -D
 
 npm install --save bcrypt-nodejs
 
-npm install --save bcryptjs
-
 npm install --save aws-sdk
 
 ### Add the following in main.js:
