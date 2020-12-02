@@ -23,7 +23,7 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-Add the following:
+### Install the following:
 
 npm install --save vue-router
 
@@ -33,12 +33,18 @@ npm install --save material-design-icons-iconfont
 
 npm install sass sass-loader deepmerge -D
 
+npm install --save bcrypt-nodejs
 
-The following in main.js:
+npm install --save bcryptjs
+
+npm install --save aws-sdk
+
+### Add the following in main.js:
 
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
-Run on 8081 (access to port granted on Heroku server)
+
+### Run on 8081 (access to port granted on Heroku server)
 
 npm run serve -- --port 8081
 

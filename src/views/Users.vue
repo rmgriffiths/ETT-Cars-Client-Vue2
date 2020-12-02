@@ -7,6 +7,8 @@
                 <th scope="col">Firstname</th>
                 <th scope="col">Lastname</th>
                 <th scope="col">Email</th>
+                <th scope="col">Userlevel</th>
+                <th scope="col">Del</th>
             </tr>
         </thead>
         <tbody>
@@ -15,6 +17,8 @@
                 <td>{{user.firstname}}</td>
                 <td>{{user.lastname}}</td>
                 <td>{{user.email}}</td>
+                <td>{{user.userlevel}}</td>
+                <td><v-btn @click="deleteUser(user.id)">X</v-btn></td>
             </tr>
       </tbody>
     </template>
@@ -38,7 +42,12 @@
                     this.users = res.data;
                     console.log(this.users);
                 })
+        },
+      methods:{
+        deleteUser(id) {
+          axios.delete("https://ettcars.herokuapp.com/api/users/" + id)
         }
+      }
     }
 </script>
 <style>

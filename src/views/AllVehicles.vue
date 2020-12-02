@@ -3,6 +3,7 @@
     <v-row>
       <v-col sm="10" offset-sm="1" md="8" offset-md="2">
         <h2>ETT Cars</h2> 
+        <NewVehicle />
       </v-col>
     </v-row>
 
@@ -13,6 +14,10 @@
               <v-card outlined>
                 <v-img src="../assets/LandCruiser.jpg" height="200px"></v-img>
                 <v-card-title>{{item.make}} {{item.model}}</v-card-title>
+                <v-card-actions>
+                  <v-btn @click="deleteVehicle(item.id)">Delete</v-btn>
+
+                </v-card-actions>            
               </v-card>
             </v-col>
 
@@ -24,9 +29,12 @@
 
 <script>
     import axios from 'axios';
+    import NewVehicle from "./NewVehicle"
 
     export default {
-      
+      components: { 
+        NewVehicle
+      },
       data () {
         return  {
           vehicles: null
@@ -38,6 +46,16 @@
           .then (res => {
               this.vehicles = res.data;
           })
+      },
+      methods:{
+        deleteVehicle(id) {
+          axios
+          .delete("https://ettcars.herokuapp.com/api/vehicles/" + id)
+          .get('https://ettcars.herokuapp.com/api/vehicles')
+          .then (res => {
+              this.vehicles = res.data;
+          })
+        }
       }
     }
 </script>

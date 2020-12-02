@@ -17,6 +17,13 @@
                 <v-text-field v-model="make" label="Make" required></v-text-field>
                 <v-text-field v-model="model" label="Model" required></v-text-field>
                 <v-text-field v-model="yearMade" label="Year" required></v-text-field>
+                <v-text-field v-model="registration" label="Registration" required></v-text-field>
+                <v-text-field v-model="type" label="Type" required></v-text-field>
+                <v-text-field v-model="aircon" label="Air con" required></v-text-field>
+                <v-text-field v-model="airbags" label="Air bags" required></v-text-field>
+                <v-text-field v-model="hourRate" label="Hourly rate" required></v-text-field>
+                <v-text-field v-model="dayRate" label="Daily rate" required></v-text-field>
+                <v-text-field v-model="weekRate" label="Weekly rate" required></v-text-field>
             </v-form>
         </v-card-text>
 
@@ -42,6 +49,15 @@
               make: null,
               model: null,
               yearMade: null,
+              registration: null,
+              type: null,
+              maxPerson: null,
+              colour: null,
+              aircon: null,
+              airbags: null,
+              hourRate: null,
+              dayRate: null,
+              weekRate: null,
               vehicleDialog: false         
             }
         },
@@ -50,7 +66,14 @@
                 axios.post("https://ettcars.herokuapp.com/api/vehicles", {
                   make: this.make,
                   model: this.model,
-                  yearMade: this.yearMade
+                  yearMade: this.yearMade,
+                  registration: this.registration,
+                  colour: this.model,
+                  aircon: this.aircon,
+                  airbags: this.airbags,
+                  hourRate: this.hourRate,
+                  dayRate: this.dayRate,
+                  weekRate: this.weekRate
                 }),
               this.vehicleDialog = false;  
             }
