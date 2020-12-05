@@ -36,16 +36,16 @@
             };
         },
         created: function () {
-            axios
-                .get('https://ettcars.herokuapp.com/api/users')
-                .then (res => {
-                    this.users = res.data;
-                    console.log(this.users);
-                })
+    axios
+        .get('https://ettcars.herokuapp.com/api/users')
+        .then (res => {
+            this.users = res.data;
+          })
         },
       methods:{
-        deleteUser(id) {
-          axios.delete("https://ettcars.herokuapp.com/api/users/" + id)
+        deleteUser(item) {
+          axios.delete("https://ettcars.herokuapp.com/api/users/" + item)
+          this.users.splice(this.users.indexOf(item), 1)
         }
       }
     }

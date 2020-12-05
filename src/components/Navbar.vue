@@ -106,13 +106,16 @@
             </v-dialog>
             
             <!-- LOGGED IN MESSAGE -->
-            <div id="loggedInUser" v-show="localUsername != 0">{{localUsername}}</div>
+            <div id="loggedInUser" v-show="localUsername != 0" small text>{{localUsername}}</div>
 
             <v-spacer></v-spacer>
 
             <v-toolbar-items class="hidden-xs-only">
                 <v-btn to="/" text>
                     <v-icon small left>dashboard</v-icon>Home
+                </v-btn>
+                <v-btn to="/account" text v-show="localUserStatus == 1">
+                    <v-icon small left>person</v-icon>Account
                 </v-btn>
                 <v-btn to="/users" text v-show="localUserLevel == 1">
                     <v-icon small left>person</v-icon>Manage Users
@@ -145,19 +148,24 @@
 </template>
 <script>
     import axios from 'axios';
-    import bcryptjs from 'bcryptjs';
-
+    
     export default{
 
         data () {
             return {
 
                 //Gets local storage values
+                get localUserId() {
+                    return localStorage.getItem('userid') || 0
+                },
                 get localUsername() {
-                    return localStorage.getItem('username') || 0;
+                    return localStorage.getItem('username') || 0
                 },
                 get localUserLevel() {
-                    return localStorage.getItem('userlevel') || 0;
+                    return localStorage.getItem('userlevel') || 0
+                },
+                get localUserStatus() {
+                    return localStorage.getItem('userstatus') || 0
                 },
 
                 uname: null,
@@ -195,81 +203,81 @@
                 ]
             }
         },
+        mounted() {
+            if (localStorage.username == 0) {
+                //this.$router.push('/')
+            }
+        },
         methods:{
             postLoginData() {
 
                 var self = this
-                //this.$refs.form.reset() 
 
                 axios
                 .post("https://ettcars.herokuapp.com/api/userlogin", {
-                  username: self.uname})
-                .then (res => {
-                    if (res.data.length == 1) {
-                        
-                        const dbpword = res.data[0].password
-                        var resdata = res.data[0]
-
-                        bcryptjs.compare(self.pword, dbpword, function(err, res) {
-                            if (err){
-                                // handle error
-                            }
-                            if (res) {
-                                localStorage.username = resdata.username
-                                localStorage.userlevel = resdata.userlevel
-                                
-                                document.getElementById("loggedInUser").innerHTML=resdata.username
-                                document.getElementById("logInButton").style.display="none"
-                                document.getElementById("registerButton").style.display="none"
-                                document.getElementById("logOutButton").style.display="inline"
-                                
-                                self.logInDialog = false
-                            }
-                            else {
-                                document.getElementById("loginMessage").innerHTML="Password failed"
-                            }
-                        });
+                        username: self.uname, 
+                        password: self.pword
+                    })
+                .then (res => {                    
+                    if (res.data['accessToken'] == 'logerror1') {
+                        document.getElementById("loginMessage").innerHTML="Password error"
                     }
                     else {
 
-                        document.getElementById("loginMessage").innerHTML="Login failed"
+                        const AuthStr = 'Bearer '.concat(res.data['accessToken'])
+                        axios
+                            .get("https://ettcars.herokuapp.com/api/userlogin/usersauth", { 
+                                headers: { Authorization: AuthStr } 
+                                })
+                            
+                            .then(res => {
+
+                                localStorage.userid = res.data[0]['id']
+                                localStorage.username = res.data[0]['username']
+                                localStorage.userlevel = res.data[0]['userlevel']
+                                localStorage.userstatus = 1
+
+                                self.localUserStatus = 1
+                                self.localUserId = res.data[0]['id'];
+                                self.localUserLevel = res.data[0]['userlevel']
+
+                                self.localUsername = res.data[0]['username']
+                        
+                                self.logInDialog = false
+                                //this.$router.push('/')
+                            })
+                            .catch(() => {
+                                document.getElementById("loginMessage").innerHTML="Token error"
+                            });
                     }
 
                 })                  
             },
 
             postLogOutData() {
+                localStorage.userid = -1
                 localStorage.username = ''
                 localStorage.userlevel = 0
-                document.getElementById("loggedInUser").innerHTML=""
-                document.getElementById("logInButton").style.display="inline"
-                document.getElementById("registerButton").style.display="inline"
-                document.getElementById("logOutButton").style.display="none"
-                this.logOutDialog = false            
+                localStorage.userstatus = 0
+
+                this.localUserStatus = 0
+                this.localUserId = -1
+                this.localUsername = ''
+
+                this.logOutDialog = false
+                this.$router.push('/') 
             },
 
             postRegisterData() {
-
-                const fname = this.fname
-                const lname = this.lname
-                const uname = this.uname
-                const email = this.email
-                
-                bcryptjs.hash(this.pword, 10, function(err, hash) {
-
-                    axios.post("https://ettcars.herokuapp.com/api/users", {
-                    firstname: fname,
-                    lastname: lname,
-                    username: uname,
-                    email: email,
+                axios.post("https://ettcars.herokuapp.com/api/users", {
+                    firstname: this.fname,
+                    lastname: this.lname,
+                    username: this.uname,
+                    email: this.email,
                     userlevel: 0,
-                    password: hash
-                    })
-
+                    password: this.pword
                 });
-
                 this.registerDialog = false;  
-
             }
         }
     }

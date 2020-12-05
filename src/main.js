@@ -8,6 +8,7 @@ import Home from './views/Home.vue';
 import Users from './views/Users.vue';
 import Vehicles from './views/Vehicles.vue';
 import AllVehicles from './views/AllVehicles.vue';
+import Account from './views/Account.vue';
 
 Vue.config.productionTip = false
 Vue.use(VueRouter);
@@ -16,7 +17,8 @@ const routes = [
   { path: '/', name: 'home', component: Home },
   { path: '/users', name: 'users', component: Users },
   { path: '/vehicles', name: 'vehicles', component: Vehicles },
-  { path: '/allvehicles', name: 'allvehicles', component: AllVehicles }
+  { path: '/allvehicles', name: 'allvehicles', component: AllVehicles },
+  { path: '/account', name: 'account', component: Account }
 ];
 
 const router = new VueRouter ({
@@ -25,7 +27,8 @@ const router = new VueRouter ({
 })
 
 new Vue({
-  vuetify,
-  router,
-  render: h => h(App)
-}).$mount('#app')
+    vuetify,
+    router,
+    render: h => h(App)
+    })
+  .$mount('#app')
