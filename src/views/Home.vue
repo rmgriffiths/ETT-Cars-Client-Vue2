@@ -2,7 +2,7 @@
 
     <div>
         <Header />
-        <Vehicles />
+        <AllVehicles />
         <Footer />
     </div>
 
@@ -10,13 +10,13 @@
 
 <script>
     import Header from "@/components/home/Header"
-    import Vehicles from "@/views/Vehicles"
+    import AllVehicles from "@/views/AllVehicles"
     import Footer from "@/components/home/Footer"
 
     export default {
          components: {
             Header,
-            Vehicles,
+            AllVehicles,
             Footer
         }
    }

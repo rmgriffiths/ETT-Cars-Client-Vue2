@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-app-bar dark color="blue">
+        <v-app-bar app dark color="blue">
 
             <span class="hidden-sm-and-up">
                 <v-btn @click="drawer = !drawer">Menu</v-btn>
@@ -106,7 +106,8 @@
             </v-dialog>
             
             <!-- LOGGED IN MESSAGE -->
-            <div id="loggedInUser" v-show="localUsername != 0" small text>{{localUsername}}</div>
+            <div v-show="localUsername != 0" small text>{{localUsername}}</div>
+            <div v-show="localUsername != 0" small text>{{userType}}</div>
 
             <v-spacer></v-spacer>
 
@@ -121,7 +122,7 @@
                     <v-icon small left>person</v-icon>Manage Users
                 </v-btn>
                 <v-btn to="/allvehicles" text v-show="localUserLevel == 1">
-                    <v-icon small left>time_to_leave</v-icon>Manage Vehicles
+                    <v-icon small left>time_to_leave</v-icon>My Vehicles (DEV)
                 </v-btn>
             </v-toolbar-items>
         </v-app-bar>
@@ -167,6 +168,7 @@
                 get localUserStatus() {
                     return localStorage.getItem('userstatus') || 0
                 },
+                userType: null,
 
                 uname: null,
                 fname: null,
@@ -199,13 +201,16 @@
                 links: [
                     { icon: 'dashboard', title: 'Dashboard', route: '/' },
                     { icon: 'person', title: 'Users', route: '/users' },
-                    { icon: 'time_to_leave', title: 'Manage Vehicles', route: '/allvehicles' }
+                    { icon: 'time_to_leave', title: 'My Vehicles (DEV)', route: '/allvehicles' }
                 ]
             }
         },
         mounted() {
-            if (localStorage.username == 0) {
-                //this.$router.push('/')
+            if (localStorage.userlevel == 0) {
+                self.userType = "Standard"
+            }
+            if (localStorage.userlevel == 1) {
+                self.userType = "Admin"
             }
         },
         methods:{
@@ -269,7 +274,8 @@
             },
 
             postRegisterData() {
-                axios.post("https://ettcars.herokuapp.com/api/users", {
+                axios
+                .post("https://ettcars.herokuapp.com/api/users", {
                     firstname: this.fname,
                     lastname: this.lname,
                     username: this.uname,
@@ -282,6 +288,7 @@
         }
     }
 </script>
+
 <style>
 
 </style>
