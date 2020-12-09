@@ -106,8 +106,8 @@
             </v-dialog>
             
             <!-- LOGGED IN MESSAGE -->
-            <div v-show="localUsername != 0" small text>{{localUsername}}</div>
-            <div v-show="localUsername != 0" small text>{{userType}}</div>
+            <div v-show="localUsername != 0" small text pa-4>{{localUsername}}</div>
+            <div v-show="localUsername != 0" small text pa-4>{{userType}}</div>
 
             <v-spacer></v-spacer>
 
@@ -115,14 +115,14 @@
                 <v-btn to="/" text>
                     <v-icon small left>dashboard</v-icon>Home
                 </v-btn>
-                <v-btn to="/account" text v-show="localUserStatus == 1">
-                    <v-icon small left>person</v-icon>Account
+                <v-btn to="/account" text v-show=" localUserStatus == 1">
+                    <v-icon small left>person</v-icon>My Account
                 </v-btn>
-                <v-btn to="/users" text v-show="localUserLevel == 1">
+                <v-btn to="/users" text v-show=" localUserLevel == 1">
                     <v-icon small left>person</v-icon>Manage Users
                 </v-btn>
-                <v-btn to="/allvehicles" text v-show="localUserLevel == 1">
-                    <v-icon small left>time_to_leave</v-icon>My Vehicles (DEV)
+                <v-btn to="/myvehicles" text v-show=" localUserStatus == 1">
+                    <v-icon small left>time_to_leave</v-icon>My Vehicles
                 </v-btn>
             </v-toolbar-items>
         </v-app-bar>
@@ -148,26 +148,18 @@
 
 </template>
 <script>
-    import axios from 'axios';
+    import axios from 'axios'
     
     export default{
 
         data () {
             return {
 
-                //Gets local storage values
-                get localUserId() {
-                    return localStorage.getItem('userid') || 0
-                },
-                get localUsername() {
-                    return localStorage.getItem('username') || 0
-                },
-                get localUserLevel() {
-                    return localStorage.getItem('userlevel') || 0
-                },
-                get localUserStatus() {
-                    return localStorage.getItem('userstatus') || 0
-                },
+                localUserId: this.$cookies.get('userid') || 0,
+                localUsername: this.$cookies.get('username') || 0,
+                localUserLevel: this.$cookies.get('userlevel') || 0,
+                localUserStatus: this.$cookies.get('userstatus') || 0,
+
                 userType: null,
 
                 uname: null,
@@ -200,17 +192,18 @@
 
                 links: [
                     { icon: 'dashboard', title: 'Dashboard', route: '/' },
-                    { icon: 'person', title: 'Users', route: '/users' },
-                    { icon: 'time_to_leave', title: 'My Vehicles (DEV)', route: '/allvehicles' }
+                    //{ icon: 'person', title: 'Users', route: '/users' },
+                    { icon: 'person', title: 'My Account', route: '/account' },
+                    { icon: 'time_to_leave', title: 'My Vehicles', route: '/myvehicles' }
                 ]
             }
         },
         mounted() {
-            if (localStorage.userlevel == 0) {
-                self.userType = "Standard"
+            if (this.localUserLevel == 0) {
+                this.userType = ": Standard user"
             }
-            if (localStorage.userlevel == 1) {
-                self.userType = "Admin"
+            if (this.localUserLevel == 1) {
+                this.userType = ": Admin"
             }
         },
         methods:{
@@ -230,6 +223,8 @@
                     else {
 
                         const AuthStr = 'Bearer '.concat(res.data['accessToken'])
+                        this.$cookies.set('token', res.data['accessToken'])   
+
                         axios
                             .get("https://ettcars.herokuapp.com/api/userlogin/usersauth", { 
                                 headers: { Authorization: AuthStr } 
@@ -237,16 +232,15 @@
                             
                             .then(res => {
 
-                                localStorage.userid = res.data[0]['id']
-                                localStorage.username = res.data[0]['username']
-                                localStorage.userlevel = res.data[0]['userlevel']
-                                localStorage.userstatus = 1
+                                this.$cookies.set('userid', res.data[0]['id'])   
+                                this.$cookies.set('username', res.data[0]['username'])   
+                                this.$cookies.set('userlevel', res.data[0]['userlevel'])   
+                                this.$cookies.set('userstatus', 1)
 
-                                self.localUserStatus = 1
-                                self.localUserId = res.data[0]['id'];
-                                self.localUserLevel = res.data[0]['userlevel']
-
-                                self.localUsername = res.data[0]['username']
+                                this.localUserStatus = 1
+                                this.localUserId = res.data[0]['id'];
+                                this.localUserLevel = res.data[0]['userlevel']
+                                this.localUsername = res.data[0]['username']
                         
                                 self.logInDialog = false
                                 //this.$router.push('/')
@@ -260,17 +254,15 @@
             },
 
             postLogOutData() {
-                localStorage.userid = -1
-                localStorage.username = ''
-                localStorage.userlevel = 0
-                localStorage.userstatus = 0
+                this.$cookies.keys().forEach(cookie => this.$cookies.remove(cookie))
 
+                this.localUserId = 0
+                this.localUsername = 0
+                this.localUserLevel = -1
                 this.localUserStatus = 0
-                this.localUserId = -1
-                this.localUsername = ''
 
                 this.logOutDialog = false
-                this.$router.push('/') 
+                //this.$router.push('/') 
             },
 
             postRegisterData() {

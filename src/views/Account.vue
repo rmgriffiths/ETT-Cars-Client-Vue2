@@ -1,57 +1,39 @@
 <template>
-  <v-simple-table>
-    <template v-slot:default>
-      <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Firstname</th>
-                <th scope="col">Lastname</th>
-                <th scope="col">Email</th>
-                <th scope="col">Userlevel</th>
-                <th scope="col">Del</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="user in users" v-bind:key="user.id">
-                <th scope="row">{{user.id}}</th>
-                <td>{{user.firstname}}</td>
-                <td>{{user.lastname}}</td>
-                <td>{{user.email}}</td>
-                <td>{{user.userlevel}}</td>
-                <td><v-btn @click="deleteUser(user.id)">X</v-btn></td>
-            </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
+  <v-card class="mx-auto" max-width="90%">
+    <v-card-text v-for="user in users" v-bind:key="user.id">
+      <h2>My Account</h2><br>
+      <p>Firstname: {{user.firstname}}</p>
+      <p>Lastname: {{user.lastname}}</p>
+      <p>Email: {{user.email}}</p>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn text color="deep-purple accent-4">
+        Edit
+      </v-btn>
+      <v-btn text color="deep-purple accent-4">
+        Change password
+      </v-btn>      
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
     import axios from 'axios';
 
   export default {
-      name: 'Users',
-      get localUsername() {
-        return localStorage.getItem('userid') || -1;
-    },        
+    name: 'Users',
+        
     data () {
       return  {
-        get localUserId() {
-            return localStorage.getItem('userid') || 0
-        },
-        get localUsername() {
-            return localStorage.getItem('username') || 0
-        },
-        get localUserLevel() {
-            return localStorage.getItem('userlevel') || 0
-        },
-        get localUserStatus() {
-            return localStorage.getItem('userstatus') || 0
-        },
+        localUserId: this.$cookies.get('userid') || 0,
+        localUsername: this.$cookies.get('username') || 0,
+        localUserLevel: this.$cookies.get('userlevel') || 0,
+        localUserStatus: this.$cookies.get('userstatus') || 0,
         users: null
       };
     },
     created: function () {
-    const userId = localStorage.userid
+    const userId = this.localUserId
     var self = this
 
     axios

@@ -2,21 +2,22 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router';
 import vuetify from './plugins/vuetify';
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
-
 import Home from './views/Home.vue';
 import Users from './views/Users.vue';
-import Vehicles from './views/Vehicles.vue';
+import MyVehicles from './views/MyVehicles.vue';
 import AllVehicles from './views/AllVehicles.vue';
 import Account from './views/Account.vue';
+import VueCookies from 'vue-cookies'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 Vue.config.productionTip = false
-Vue.use(VueRouter);
+Vue.use(VueRouter)
+Vue.use(VueCookies)
 
 const routes = [
   { path: '/', name: 'home', component: Home },
   { path: '/users', name: 'users', component: Users },
-  { path: '/vehicles', name: 'vehicles', component: Vehicles },
+  { path: '/myvehicles', name: 'myvehicles', component: MyVehicles },
   { path: '/allvehicles', name: 'allvehicles', component: AllVehicles },
   { path: '/account', name: 'account', component: Account }
 ];
