@@ -7,12 +7,9 @@
       <p>Email: {{user.email}}</p>
     </v-card-text>
     <v-card-actions>
-      <v-btn text color="deep-purple accent-4">
+      <v-btn @click="editAccount">
         Edit
       </v-btn>
-      <v-btn text color="deep-purple accent-4">
-        Change password
-      </v-btn>      
     </v-card-actions>
   </v-card>
 </template>
@@ -43,6 +40,9 @@
       })
     },
     methods:{
+      editAccount () {
+        alert ("In development")
+      },
       deleteUser(id) {
         axios.delete("https://ettcars.herokuapp.com/api/users/" + id)
       }

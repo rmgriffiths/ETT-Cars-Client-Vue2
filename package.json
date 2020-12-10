@@ -29,6 +29,7 @@
     "deepmerge": "^1.5.2",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "prettier": "1.19.1",
     "sass": "^1.29.0",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-vuetify": "~2.0.7",

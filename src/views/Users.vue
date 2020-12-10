@@ -18,7 +18,7 @@
                 <td>{{user.lastname}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.userlevel}}</td>
-                <td><v-btn @click="deleteUser(user.id)">X</v-btn></td>
+                <td><v-btn @click="deleteUser(user.id)" v-show="localUserLevel == 2">X</v-btn></td>
             </tr>
       </tbody>
     </template>
@@ -32,7 +32,11 @@
         name: 'Users',
         data () {
             return  {
-                users: null
+              localUserId: this.$cookies.get('userid') || 0,
+              localUsername: this.$cookies.get('username') || 0,
+              localUserLevel: this.$cookies.get('userlevel') || 0,
+              localUserStatus: this.$cookies.get('userstatus') || 0,               
+              users: null
             };
         },
         created: function () {

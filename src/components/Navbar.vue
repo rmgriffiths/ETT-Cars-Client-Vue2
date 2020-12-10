@@ -131,6 +131,9 @@
         <v-navigation-drawer v-model="drawer" app class="indigo lighten-3">
             <v-list>
                 <v-subheader>MENU</v-subheader>
+                    <v-btn @click="drawer = !drawer">
+                        X
+                    </v-btn>
                     <v-list-item-group >
                         <v-list-item v-for="link in links" :key="link.title" :to="link.route">
                         <v-list-item-icon>
@@ -208,9 +211,7 @@
         },
         methods:{
             postLoginData() {
-
                 var self = this
-
                 axios
                 .post("https://ettcars.herokuapp.com/api/userlogin", {
                         username: self.uname, 

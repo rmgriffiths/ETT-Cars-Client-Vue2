@@ -61,23 +61,24 @@
                             
               <v-list-item three-line>
                 <v-list-item-content>
+                    <div v-show="localUserLevel == 2"> {{item.id}} </div>                    
                     <div><h2><b>{{item.make}} {{item.model}}</b></h2></div>                    
                     <div>{{item.type}}</div>                    
                     <div>{{item.yearMade}}</div>
                     <div>{{item.colour}}</div>
-                    <div>Hourly rate:<br>{{item.hourRate}}</div>
-                    <div>Daily rate:<br>{{item.dayRate}}</div>                    
-                    <div>Weekly rate:<br>{{item.weekRate}}</div>
+                    <div>Hourly rate: {{item.hourRate}}</div>
+                    <div>Daily rate: {{item.dayRate}}</div>                    
+                    <div>Weekly rate: {{item.weekRate}}</div>
                   </v-list-item-content>
                   
                   <v-list-item-content>
 
                     <v-carousel :show-arrows="false" hide-delimiter-background height="300">
                       <v-carousel-item v-for="photo in item.photos" :key="photo.id" >
-                        <v-sheet height="100%" tile>
+                        <v-sheet height="100%" tile light>
                           <v-row align="center" justify="center">
                             <div class="display-2">
-                              <v-img v-bind:src="photo.photoUrl" height="300px"></v-img>
+                              <v-img v-bind:src="photo.photoUrl" height="300px" width="400px"></v-img>
                             </div>
                           </v-row>
                         </v-sheet>
@@ -88,7 +89,7 @@
 
               </v-list-item>
               <div class="pa-3">
-                <v-btn @click="deleteVehicle(item)" v-show="localUserLevel == 1">Book</v-btn>
+                <v-btn @click="bookVehicle(item)" v-show="localUserLevel == 1">Book</v-btn>
               </div>
             </v-card>
           </v-col>
@@ -106,19 +107,11 @@
     export default {
       data () {
         return  {
-          //Gets local storage values
-          get localUserId() {
-              return localStorage.getItem('userid') || 0
-          },
-          get localUsername() {
-              return localStorage.getItem('username') || 0
-          },
-          get localUserLevel() {
-              return localStorage.getItem('userlevel') || 0
-          },
-          get localUserStatus() {
-              return localStorage.getItem('userstatus') || 0
-          },          
+          localUserId: this.$cookies.get('userid') || 0,
+          localUsername: this.$cookies.get('username') || 0,
+          localUserLevel: this.$cookies.get('userlevel') || 0,
+          localUserStatus: this.$cookies.get('userstatus') || 0, 
+                   
           dates: [],
           searchDialog: false,
           
@@ -164,12 +157,9 @@
           })
       },
       methods:{
-        deleteVehicle(item) {
-          if(confirm("Do you really want to delete?")){
-            axios
-              .delete("https://ettcars.herokuapp.com/api/vehicles/" + item.id)
-              this.vehicles.splice(this.vehicles.indexOf(item), 1)
-          }
+        bookVehicle(item) {
+          alert("Booking function is development")
+          console.log(item)
         },
         postData() {
           axios
