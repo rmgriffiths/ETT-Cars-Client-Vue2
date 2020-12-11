@@ -115,11 +115,8 @@
                 <v-btn to="/" text>
                     <v-icon small left>dashboard</v-icon>Home
                 </v-btn>
-                <v-btn to="/account" text v-show=" localUserStatus == 1">
+                <v-btn to="/myaccount" text v-show=" localUserStatus == 1">
                     <v-icon small left>person</v-icon>My Account
-                </v-btn>
-                <v-btn to="/users" text v-show=" localUserLevel == 1">
-                    <v-icon small left>person</v-icon>Manage Users
                 </v-btn>
                 <v-btn to="/mybookings" text v-show=" localUserStatus == 1">
                     <v-icon small left>time_to_leave</v-icon>My Bookings
@@ -127,6 +124,12 @@
                 <v-btn to="/myvehicles" text v-show=" localUserStatus == 1">
                     <v-icon small left>time_to_leave</v-icon>My Vehicles
                 </v-btn>
+                <v-btn to="/users" text v-show=" localUserLevel == 1">
+                    <v-icon small left>person</v-icon>Manage Users
+                </v-btn>
+                <v-btn to="/bookings" text v-show=" localUserLevel == 1">
+                    <v-icon small left>person</v-icon>Manage Bookings
+                </v-btn>                                
             </v-toolbar-items>
         </v-app-bar>
 

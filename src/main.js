@@ -4,9 +4,11 @@ import VueRouter from 'vue-router';
 import vuetify from './plugins/vuetify';
 import Home from './views/Home.vue';
 import Users from './views/Users.vue';
-import MyVehicles from './views/MyVehicles.vue';
+import Bookings from './views/Bookings.vue';
+import MyBookings from './views/MyBookings.vue';
 import AllVehicles from './views/AllVehicles.vue';
-import Account from './views/Account.vue';
+import MyVehicles from './views/MyVehicles.vue';
+import MyAccount from './views/MyAccount.vue';
 import VueCookies from 'vue-cookies'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
@@ -17,9 +19,11 @@ Vue.use(VueCookies)
 const routes = [
   { path: '/', name: 'home', component: Home },
   { path: '/users', name: 'users', component: Users },
+  { path: '/bookings', name: 'bookings', component: Bookings },
+  { path: '/mybookings', name: 'mybookings', component: MyBookings },
   { path: '/myvehicles', name: 'myvehicles', component: MyVehicles },
   { path: '/allvehicles', name: 'allvehicles', component: AllVehicles },
-  { path: '/account', name: 'account', component: Account }
+  { path: '/myaccount', name: 'myaccount', component: MyAccount }
 ];
 
 const router = new VueRouter ({

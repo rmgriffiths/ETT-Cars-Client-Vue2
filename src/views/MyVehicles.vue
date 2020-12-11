@@ -145,7 +145,6 @@
         }
       },
       created: function () {
-        console.log("Looking for cars")
         axios
           .post('https://ettcars.herokuapp.com/api/myvehicles', {
             ownerId: this.$cookies.get('userid')
@@ -182,21 +181,6 @@
             this.vehicles.push(res.data)
           })
             this.vehicleDialog = false;  
-        },
-        searchDialogFind() {   
-
-          const colour = this.vehicleColour 
-          
-          axios
-            .post('https://ettcars.herokuapp.com/api/vehiclesearch', {
-                        colour: colour
-                    })
-            .then (res => {
-                this.noOfCars=res.data.length + " vehicles found"
-                this.vehicles = res.data;
-            })
-          
-          this.searchDialog = false
         }
       }            
     }
