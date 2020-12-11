@@ -272,7 +272,7 @@
                 this.localUserStatus = 0
 
                 this.logOutDialog = false
-                //this.$router.push('/') 
+                this.$router.push('/')  //NOT HAPPY IF ALREADY ON THIS VIEW
             },
 
             postRegisterData() {
