@@ -18,11 +18,11 @@
         computed: {
             sheetHeight() {
             switch (this.$vuetify.breakpoint.name) {
-                case 'xs': return '100px'
-                case 'sm': return '150px'
-                case 'md': return '150px'
-                case 'lg': return '150px'
-                case 'xl': return '200px'
+                case 'xs': return '80px'
+                case 'sm': return '100px'
+                case 'md': return '100px'
+                case 'lg': return '100px'
+                case 'xl': return '150px'
             }
             return '150px'
             }        

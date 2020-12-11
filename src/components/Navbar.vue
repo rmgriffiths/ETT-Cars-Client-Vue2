@@ -121,6 +121,9 @@
                 <v-btn to="/users" text v-show=" localUserLevel == 1">
                     <v-icon small left>person</v-icon>Manage Users
                 </v-btn>
+                <v-btn to="/mybookings" text v-show=" localUserStatus == 1">
+                    <v-icon small left>time_to_leave</v-icon>My Bookings
+                </v-btn>
                 <v-btn to="/myvehicles" text v-show=" localUserStatus == 1">
                     <v-icon small left>time_to_leave</v-icon>My Vehicles
                 </v-btn>
@@ -195,18 +198,9 @@
 
                 links: [
                     { icon: 'dashboard', title: 'Dashboard', route: '/' },
-                    //{ icon: 'person', title: 'Users', route: '/users' },
                     { icon: 'person', title: 'My Account', route: '/account' },
                     { icon: 'time_to_leave', title: 'My Vehicles', route: '/myvehicles' }
                 ]
-            }
-        },
-        mounted() {
-            if (this.localUserLevel == 0) {
-                this.userType = ": Standard user"
-            }
-            if (this.localUserLevel == 1) {
-                this.userType = ": Admin"
             }
         },
         methods:{
@@ -217,9 +211,13 @@
                         username: self.uname, 
                         password: self.pword
                     })
-                .then (res => {                    
-                    if (res.data['accessToken'] == 'logerror1') {
+                .then (res => {
+                    console.log(res.data['accessToken'])                 
+                    if (res.data['accessToken'] === 'err1') {
                         document.getElementById("loginMessage").innerHTML="Password error"
+                    }
+                    else if (res.data['accessToken'] === 'err2') {
+                        document.getElementById("loginMessage").innerHTML="Not verified"
                     }
                     else {
 
@@ -242,6 +240,17 @@
                                 this.localUserId = res.data[0]['id'];
                                 this.localUserLevel = res.data[0]['userlevel']
                                 this.localUsername = res.data[0]['username']
+
+                                //TEMP - purely to displays level
+                                if (this.localUserLevel == 0) {
+                                    this.userType = ": Standard user"
+                                }
+                                if (this.localUserLevel == 1) {
+                                    this.userType = ": Admin"
+                                }
+                                if (this.localUserLevel == 2) {
+                                    this.userType = ": Super user"
+                                }
                         
                                 self.logInDialog = false
                                 //this.$router.push('/')
