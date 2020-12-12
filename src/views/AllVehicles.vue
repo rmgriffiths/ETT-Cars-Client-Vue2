@@ -14,9 +14,6 @@
             <v-btn id="searchButton" v-bind="attrs" v-on="on" light >
               Search
             </v-btn>
-            <v-btn @click="clearSearch">
-              Clear
-            </v-btn>
           </template>
 
           <v-card >

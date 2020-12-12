@@ -2,13 +2,6 @@
     <div>
         <v-app-bar app dark color="blue">
 
-
-            <span class="hidden-sm-and-up">
-                <v-btn @click="drawer = !drawer">
-                    <v-icon small left light>dehaze</v-icon>
-                </v-btn>
-            </span>
-
             <v-toolbar-title>
                 ETT Cars
             </v-toolbar-title>
@@ -108,10 +101,10 @@
                 </v-card>
             </v-dialog>
             
-            <!-- LOGGED IN MESSAGE -->
+            <!-- LOGGED IN MESSAGE 
             <div v-show="localUsername != 0" small text pa-4>{{localUsername}}</div>
             <div v-show="localUsername != 0" small text pa-4>{{userType}}</div>
-
+            -->
             <v-spacer></v-spacer>
 
 
@@ -119,7 +112,7 @@
                 <v-menu offset-y>
                 <template v-slot:activator="{ on, attrs }">
                     <v-btn icon v-bind="attrs" v-on="on" >
-                        <v-icon small left light>dehaze</v-icon>
+                        <v-icon small left light v-show="localUserStatus == 1">dehaze</v-icon>
                     </v-btn>
                 </template>
                 <v-list>
@@ -135,50 +128,7 @@
                 </v-menu>
             </div>
 
-            <!--
-            <v-toolbar-items class="hidden-xs-only">
-                <v-btn to="/" text>
-                    <v-icon small left>dashboard</v-icon>Home
-                </v-btn>
-                <v-btn to="/myaccount" text v-show=" localUserStatus == 1">
-                    <v-icon small left>person</v-icon>My Account
-                </v-btn>
-                <v-btn to="/mybookings" text v-show=" localUserStatus == 1">
-                    <v-icon small left>time_to_leave</v-icon>My Bookings
-                </v-btn>
-                <v-btn to="/myvehicles" text v-show=" localUserStatus == 1">
-                    <v-icon small left>time_to_leave</v-icon>My Vehicles
-                </v-btn>
-                <v-btn to="/users" text v-show=" localUserLevel == 1">
-                    <v-icon small left>person</v-icon>Manage Users
-                </v-btn>
-                <v-btn to="/bookings" text v-show=" localUserLevel == 1">
-                    <v-icon small left>person</v-icon>Manage Bookings
-                </v-btn>                                
-            </v-toolbar-items>
-            -->
-
         </v-app-bar>
-
-        <!-- DRAWER -->
-        <v-navigation-drawer v-model="drawer" app class="indigo lighten-3">
-            <v-list>
-                <v-subheader>MENU</v-subheader>
-                    <v-btn @click="drawer = !drawer">
-                        X
-                    </v-btn>
-                    <v-list-item-group >
-                        <v-list-item v-for="link in links" :key="link.title" :to="link.route">
-                        <v-list-item-icon>
-                            <v-icon class="white--text">{{ link.icon }}</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-content>
-                            <v-list-item-title>{{ link.title }}</v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                </v-list-item-group>
-            </v-list>
-        </v-navigation-drawer>
 
     </div>
 
