@@ -6,12 +6,16 @@
         
         <h2>ETT Cars</h2>
         <div small text>{{noOfCars}}</div>                
- 
+        <v-text-field v-model="dateRangeText" readonly></v-text-field>
+
         <!-- SEARCH CARD -->
         <v-dialog v-model="searchDialog" width="600">
           <template v-slot:activator="{ on, attrs }" >
             <v-btn id="searchButton" v-bind="attrs" v-on="on" light >
               Search
+            </v-btn>
+            <v-btn @click="clearSearch">
+              Clear
             </v-btn>
           </template>
 
@@ -83,11 +87,11 @@
               <div>Weekly rate: {{item.weekRate}}</div>
 
             </v-list-item-content>
-          </v-list-item>
 
-          <v-btn id="bookButton" @click="openBooking(item.id)" class="pa-3">
-            Book
-          </v-btn>
+            <v-btn id="bookButton" @click="openBooking(item.id)" class="pa-3" v-show="localBookingStatus == 1 && localUserStatus ==1">
+              Book
+            </v-btn>
+          </v-list-item>
 
         </v-card>
       </v-col>
@@ -97,24 +101,23 @@
     <v-dialog v-model="bookingDialog" width="600">
       <v-card >
         <v-card-title class="headline grey lighten-2">
-          Booking
+          Booking Details
         </v-card-title>
 
         <v-card-text>
           <v-form lazy-validation>
             <v-row>
 
-
               <v-col cols="12" sm="6">
-
                 <v-text-field v-model="bookVehicleId"></v-text-field>
-
+                <v-text-field v-model="bookCost">Cost: to be calculated</v-text-field>
               </v-col>
 
               <v-col cols="12" sm="6">
 
-                <v-text-field v-model="dateRangeBookText" readonly></v-text-field>
-                <v-text-field v-model="dateRangeText"></v-text-field>
+                <v-text-field v-model="dateRangeText" readonly></v-text-field>
+                <v-text-field v-model="bookUserId" readonly></v-text-field>
+                <v-text-field v-model="bookUsername" readonly></v-text-field>
 
               </v-col>
             </v-row>
@@ -145,13 +148,15 @@
           localUsername: this.$cookies.get('username') || 0,
           localUserLevel: this.$cookies.get('userlevel') || 0,
           localUserStatus: this.$cookies.get('userstatus') || 0, 
-                   
+          localBookingStatus: 0,
+
           dates: [],
           searchDialog: false,
           bookingDialog: false,
-
+          bookUsername: null,
+          bookUserId: null,
+          bookCost: null,
           bookVehicleId: null,
-          dateRangeBookText: null,
 
           vehicleMake: null,
           vehicleModel: null,
@@ -198,43 +203,30 @@
         openBooking (vehicle) {
           this.bookingDialog = true
           this.bookVehicleId = vehicle   
+          this.bookUserId = "UserId: " + this.localUserId   
+          this.bookUsername = "Username: " + this.localUsername   
         },
         confirmBooking() {
+          var self = this
+          console.log(self.bookVehicleId)
+          console.log(self.localUserId)
+
           axios
             .post('https://ettcars.herokuapp.com/api/bookings', {
-                vehicleId: this.bookVehicleId,
-                userId: this.localUserId
-                //dateIn: this.dates,
-                //dateOut: this.dates
+                vehicleId: self.bookVehicleId,
+                userId: self.localUserId,
+                dateIn: self.dates[0],
+                dateOut: self.dates[1]
             })
-         
             this.bookingDialog = false
-
             alert ("Booking made")
-        },   
-        postData() {
-          axios
-          .post("https://ettcars.herokuapp.com/api/vehicles", {
-            make: this.make,
-            model: this.model,
-            yearMade: this.yearMade,
-            registration: this.registration,
-            colour: this.model,
-            aircon: this.aircon,
-            airbags: this.airbags,
-            hourRate: this.hourRate,
-            dayRate: this.dayRate,
-            weekRate: this.weekRate
-          })
-          .then (res => {
-            this.vehicles.push(res.data)
-          })
-            this.vehicleDialog = false;  
+        },
+        clearSearch () {
+          this.localBookingStatus = 0
+          //this.dates = null
         },
         searchDialogFind() {   
-          
           var self = this
-
           axios
             .post('https://ettcars.herokuapp.com/api/vehiclesearch', {
                 make: self.vehicleMake,
@@ -243,7 +235,8 @@
             })
             .then (res => {
                 this.noOfCars=res.data.length + " vehicles found"
-                this.vehicles = res.data;
+                this.vehicles = res.data
+                this.localBookingStatus = 1
             })
           
           this.searchDialog = false

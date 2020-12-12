@@ -2,8 +2,11 @@
     <div>
         <v-app-bar app dark color="blue">
 
+
             <span class="hidden-sm-and-up">
-                <v-btn @click="drawer = !drawer">Menu</v-btn>
+                <v-btn @click="drawer = !drawer">
+                    <v-icon small left light>dehaze</v-icon>
+                </v-btn>
             </span>
 
             <v-toolbar-title>
@@ -111,6 +114,28 @@
 
             <v-spacer></v-spacer>
 
+
+            <div class="text-center">
+                <v-menu offset-y>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn icon v-bind="attrs" v-on="on" >
+                        <v-icon small left light>dehaze</v-icon>
+                    </v-btn>
+                </template>
+                <v-list>
+                    <v-list-item v-for="link in links" :key="link.title" :to="link.route">
+                        <v-list-item-icon>
+                            <v-icon class="white--text">{{ link.icon }}</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>{{ link.title }}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>       
+                </v-list>
+                </v-menu>
+            </div>
+
+            <!--
             <v-toolbar-items class="hidden-xs-only">
                 <v-btn to="/" text>
                     <v-icon small left>dashboard</v-icon>Home
@@ -131,6 +156,8 @@
                     <v-icon small left>person</v-icon>Manage Bookings
                 </v-btn>                                
             </v-toolbar-items>
+            -->
+
         </v-app-bar>
 
         <!-- DRAWER -->
@@ -200,8 +227,9 @@
                 registerDialog: false,
 
                 links: [
-                    { icon: 'dashboard', title: 'Dashboard', route: '/' },
-                    { icon: 'person', title: 'My Account', route: '/account' },
+                    { icon: 'dashboard', title: 'Search', route: '/' },
+                    { icon: 'person', title: 'My Account', route: '/myaccount' },
+                    { icon: 'time_to_leave', title: 'My Bookings', route: '/mybookings' },
                     { icon: 'time_to_leave', title: 'My Vehicles', route: '/myvehicles' }
                 ]
             }

@@ -2,6 +2,9 @@
   <v-container mb-12>
     <v-row>
       <v-col sm="10" offset-sm="1" md="8" offset-md="2">
+        <h2>My Bookings</h2>
+        <div small text>{{noOfBookings}}</div>
+
         <v-row>
           <v-col sm="12" md="12" v-for="item in bookings" :key="item.id">
             <v-card class="mx-auto" outlined>
@@ -46,7 +49,8 @@
           localUserLevel: this.$cookies.get('userlevel') || 0,
           localUserStatus: this.$cookies.get('userstatus') || 0,
 
-          bookings: null
+          bookings: null,
+          noOfBookings: null
         };
       },
       created: function () {
@@ -55,6 +59,7 @@
             userId: this.$cookies.get('userid')
           })
           .then (res => {
+              this.noOfBookings = res.data.length + " bookings found"
               this.bookings = res.data
           })
       },

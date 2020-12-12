@@ -2,7 +2,7 @@
   <v-container mb-12>
     <v-row>
       <v-col sm="10" offset-sm="1" md="8" offset-md="2">
-        <h2>ETT Cars</h2>
+        <h2>My Cars</h2>
         <div small text>{{noOfCars}}</div>
 
         <v-dialog v-model="vehicleDialog" width="600">
