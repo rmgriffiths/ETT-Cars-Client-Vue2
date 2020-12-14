@@ -17,16 +17,18 @@
 
                   <v-list-item-content>
                     <div>Vehicle ID: {{item.vehicleId}}</div>
-                    <div>Date out:<br></div>
-                    <div>Date in:<br></div>
+                    <div>Cost: {{item.bookingCost}}</div>
+                    <div>Start date: {{item.dateOut}}</div>
+                    <div>End date:{{item.dateIn}}</div>
+                    <div>Booking status:{{item.bookingStatus}}</div>
 
                   </v-list-item-content>
   
               </v-list-item>
               <div class="pa-3">
-                <v-btn @click="deleteBooking(item)" v-show="localUserLevel == 1">Delete</v-btn>
+                <v-btn @click="deleteBooking(item.id)" v-show="localUserLevel == 1">Delete</v-btn>
 
-                <v-btn @click="editBooking(item)" v-show="localUserLevel == 1">Edit</v-btn>
+                <v-btn @click="editBooking(item.id)" v-show="localUserLevel == 1">Edit</v-btn>
               </div>
             </v-card>
           </v-col>
@@ -64,13 +66,15 @@
           })
       },
       methods: {    
-        editBooking (item) {
-          alert ("Dev - to delete " + item)
+        editBooking (itemId) {
+          alert ("(Dev) Edit " + itemId)
         },
-        deleteBooking (item) {
-          alert ("Dev - to edit " + item)
-        }
-      }    }
+        deleteBooking (itemId) {
+          alert ("(Dev) Delete " + itemId)
+        },
+
+      }    
+    }
 </script>
 
 <style>

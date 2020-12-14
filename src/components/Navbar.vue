@@ -67,7 +67,7 @@
                 </v-card>
             </v-dialog>
 
-           <!-- USER REGISTER CARD -->
+            <!-- USER REGISTER CARD -->
             <v-dialog v-model="registerDialog" width="600">
                 <template v-slot:activator="{ on, attrs }">
                     <v-btn id="registerButton" v-bind="attrs" v-on="on" text v-show="localUsername == 0">
@@ -101,12 +101,7 @@
                 </v-card>
             </v-dialog>
             
-            <!-- LOGGED IN MESSAGE 
-            <div v-show="localUsername != 0" small text pa-4>{{localUsername}}</div>
-            <div v-show="localUsername != 0" small text pa-4>{{userType}}</div>
-            -->
             <v-spacer></v-spacer>
-
 
             <div class="text-center">
                 <v-menu offset-y>
@@ -133,9 +128,11 @@
     </div>
 
 </template>
+
 <script>
     import axios from 'axios'
-    
+    import { EventBus } from './event-bus.js';
+ 
     export default{
 
         data () {
@@ -184,12 +181,12 @@
                 ]
             }
         },
-        methods:{
+        methods: {
             postLoginData() {
                 var self = this
                 axios
                 .post("https://ettcars.herokuapp.com/api/userlogin", {
-                        username: self.uname, 
+                        username: self.uname.toLowerCase(), 
                         password: self.pword
                     })
                 .then (res => {
@@ -217,42 +214,32 @@
                                 this.$cookies.set('userlevel', res.data[0]['userlevel'])   
                                 this.$cookies.set('userstatus', 1)
 
+                                EventBus.$emit('loggedIn', 1);
+
                                 this.localUserStatus = 1
                                 this.localUserId = res.data[0]['id'];
                                 this.localUserLevel = res.data[0]['userlevel']
                                 this.localUsername = res.data[0]['username']
-
-                                //TEMP - purely to displays level
-                                if (this.localUserLevel == 0) {
-                                    this.userType = ": Standard user"
-                                }
-                                if (this.localUserLevel == 1) {
-                                    this.userType = ": Admin"
-                                }
-                                if (this.localUserLevel == 2) {
-                                    this.userType = ": Super user"
-                                }
                         
                                 self.logInDialog = false
-                                //this.$router.push('/')
                             })
                             .catch(() => {
                                 document.getElementById("loginMessage").innerHTML="Token error"
                             });
                     }
-
                 })                  
             },
 
             postLogOutData() {
                 this.$cookies.keys().forEach(cookie => this.$cookies.remove(cookie))
-
                 this.localUserId = 0
                 this.localUsername = 0
                 this.localUserLevel = -1
                 this.localUserStatus = 0
-
                 this.logOutDialog = false
+                
+                EventBus.$emit('loggedIn', 0);
+
                 this.$router.push('/')  //NOT HAPPY IF ALREADY ON THIS VIEW
             },
 

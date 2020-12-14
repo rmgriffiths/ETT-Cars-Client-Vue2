@@ -1,11 +1,13 @@
 ### All Users
 
 Registration:
-Verification 
+Verification - add resend verify email
+Verification - show verified page
+
 
 Search:
 Include dates in search
-Display photos as slider
+Display photos as carousel
 
 
 ### Car owners

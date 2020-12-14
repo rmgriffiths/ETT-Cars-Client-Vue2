@@ -9,6 +9,8 @@ import MyBookings from './views/MyBookings.vue';
 import AllVehicles from './views/AllVehicles.vue';
 import MyVehicles from './views/MyVehicles.vue';
 import MyAccount from './views/MyAccount.vue';
+import VerifiedAccount from './views/VerifiedAccount.vue';
+import PageNotFound from './views/PageNotFound.vue';
 import VueCookies from 'vue-cookies'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
@@ -23,7 +25,9 @@ const routes = [
   { path: '/mybookings', name: 'mybookings', component: MyBookings },
   { path: '/myvehicles', name: 'myvehicles', component: MyVehicles },
   { path: '/allvehicles', name: 'allvehicles', component: AllVehicles },
-  { path: '/myaccount', name: 'myaccount', component: MyAccount }
+  { path: '/myaccount', name: 'myaccount', component: MyAccount },
+  { path: '/verifyaccount', name: 'VerifiedAccount', component: VerifiedAccount },
+  { path: '*', name: 'PageNotFound', component: PageNotFound }
 ];
 
 const router = new VueRouter ({

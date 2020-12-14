@@ -6,11 +6,11 @@
         <div small text>{{noOfCars}}</div>
 
         <v-dialog v-model="vehicleDialog" width="600">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn v-bind="attrs" v-on="on" v-show="localUserLevel == 1" >
-                Add vehicle
-              </v-btn>
-            </template>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" v-show="localUserLevel == 1" >
+              Add vehicle
+            </v-btn>
+          </template>
 
           <v-card >
             <v-card-title class="headline grey lighten-2">
@@ -83,9 +83,9 @@
               </v-list-item>
               <div class="pa-3">
                 <v-btn @click="deleteVehicle(item)" v-show="localUserLevel == 1">Delete</v-btn>
-
                 <v-btn @click="editVehicle(item)" v-show="localUserLevel == 1">Edit</v-btn>
-                <v-btn @click="photosVehicle(item)" v-show="localUserLevel == 1">Photos</v-btn>
+                <v-btn @click="$refs.fileInput.click()" v-show="localUserLevel == 1">Pick photo</v-btn>
+                <v-btn @click="uploadPhoto" v-show="localUserLevel == 1">Upload photo</v-btn>
               </div>
             </v-card>
           </v-col>
@@ -139,11 +139,6 @@
               //this.$router.push('/')
           }
       },
-      computed: {
-        dateRangeText () {
-          return this.dates.join(' ~ ')
-        }
-      },
       created: function () {
         axios
           .post('https://ettcars.herokuapp.com/api/myvehicles', {
@@ -155,6 +150,13 @@
           })
       },
       methods:{
+        uploadPhoto () {
+        const fd = new FormData()
+        fd.append('image', this.selectedFile, this.selectedFile.name)
+          axios
+            .post("https://ettcars.herokuapp.com/api/uploadPhoto", {
+            })
+        },
         deleteVehicle(item) {
           if(confirm("Do you really want to delete?")){
             axios
@@ -169,7 +171,9 @@
             model: this.model,
             yearMade: this.yearMade,
             registration: this.registration,
+            type: this.type,
             colour: this.colour,
+            status: 0,
             aircon: this.aircon,
             airbags: this.airbags,
             hourRate: this.hourRate,
