@@ -13,10 +13,25 @@ import VerifiedAccount from './views/VerifiedAccount.vue';
 import PageNotFound from './views/PageNotFound.vue';
 import VueCookies from 'vue-cookies'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import firebase from 'firebase';
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(VueCookies)
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+var firebaseConfig = {
+  apiKey: "AIzaSyCDAzWZ649NeJSC9WdNTyJ_xeQdhyPzkQI",
+  authDomain: "ettcars.firebaseapp.com",
+  projectId: "ettcars",
+  storageBucket: "ettcars.appspot.com",
+  messagingSenderId: "1001647829958",
+  appId: "1:1001647829958:web:40b81e2ec8e407a79f38c7",
+  measurementId: "G-BR7FYBEG63"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 const routes = [
   { path: '/', name: 'home', component: Home },

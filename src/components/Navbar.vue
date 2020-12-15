@@ -103,11 +103,12 @@
             
             <v-spacer></v-spacer>
 
+            <!--NAV BAR -->
             <div class="text-center">
                 <v-menu offset-y>
                 <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon v-bind="attrs" v-on="on" >
-                        <v-icon small left light v-show="localUserStatus == 1">dehaze</v-icon>
+                    <v-btn icon v-bind="attrs" v-on="on" v-show="localUserStatus == 1">
+                        <v-icon small left light >dehaze</v-icon>
                     </v-btn>
                 </template>
                 <v-list>

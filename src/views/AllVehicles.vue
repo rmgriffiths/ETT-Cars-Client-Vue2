@@ -4,8 +4,7 @@
 
     <v-row>
       <v-col>
-        <h2>ETT Cars</h2>
-        <div ></div>                
+        <!--No of cars hidden--> 
         <v-text-field v-model="noOfCars" readonly small text v-show="noOfCars < 0">{{noOfCars + ' vehicles Found'}}</v-text-field>
         <v-text-field v-model="dateRangeText" readonly></v-text-field>
 
@@ -19,7 +18,7 @@
 
           <v-card >
             <v-card-title class="headline grey lighten-2">
-              Find your car
+              Find your vehicle
             </v-card-title>
 
             <v-card-text>
@@ -139,23 +138,27 @@
                         
           <v-list-item three-line>
             <v-list-item-content>
-              <div v-show="localUserLevel == 2"> {{item.id}} </div>                    
-              <div><h2><b>{{item.make}}<br>{{item.model}}</b></h2></div>                    
+              <div v-show="localUserLevel == 1"> {{item.id}} </div>                    
+              <div><h2><b>{{item.make}} {{item.model}}</b></h2></div>                    
               <div>{{item.type}}</div>                    
               <div>Year: {{item.yearMade}} {{item.colour}}</div>
               
               <div v-show="localSearch == 0">
-                <div>Daily rate: ${{item.dayRate}} Weekly rate: ${{item.weekRate}}</div>
+                <div>Day rate: ${{item.dayRate}} Week rate: ${{item.weekRate}}</div>
               </div>
 
-              <div v-show="localSearch == 1">
+              <div v-show="localSearchRate == 1">
                 <div>Cost: ${{item.dayRate * localBookingDays}}</div>                    
               </div>
+
+              <div v-show="localSearchRate == 2">
+                <div>Cost: ${{item.weekRate * localBookingDays}}</div>                    
+              </div>              
                 
             </v-list-item-content>
 
             <v-btn id="bookButton" 
-              @click="openBooking(item.id, item.dayRate * localBookingDays)" 
+              @click="openBooking(item.id, item.dayRate, item.weekRate)" 
               class="pa-3"
               v-show="localBookingStatus == 1 && localUserStatus ==1"
             >
@@ -183,6 +186,8 @@
                 <v-text-field v-model="bookingVehicleId"></v-text-field>
                 Dates: 
                 <v-text-field v-model="dateRangeText" readonly></v-text-field>
+                No of days: 
+                <v-text-field v-model="dateRangeDays" readonly></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
                 The cost of:
@@ -223,6 +228,7 @@
           localBookingStatus: 0,
           localBookingDays: 0,
           localSearch:0,
+          localSearchRate:0,
 
           //Booking dialog
           bookingDialog: false,
@@ -242,6 +248,7 @@
           menuEnd: false,
 
           dateRangeText: null,
+          dateRangeDays: null,
           noOfCars: null,
           vehicles: null,
         };
@@ -264,9 +271,18 @@
           })
       },
       methods:{
-        openBooking (vehicle, bookingCost)  {
+        openBooking (vehicle, dayRate, weekRate)  {
           this.bookingDialog = true
-          this.bookingCost = bookingCost   
+
+          if ( this.localBookingDays < 7) {
+            this.bookingCost = this.localBookingDays * dayRate //MESSY
+            this.dateRangeDays = this.localBookingDays + " days at $" + dayRate
+          }
+          else {
+            this.dateRangeDays = this.localBookingDays + " days at $" + weekRate
+            this.bookingCost = this.localBookingDays * weekRate //MESSY
+          }
+          
           this.bookingVehicleId = vehicle   
           this.bookingUserId = "UserId: " + this.localUserId   
           this.bookingUsername = "Username: " + this.localUsername   
@@ -307,9 +323,17 @@
           const endDate = new Date(this.dateEnd)
           if (startDate.valueOf() > 0 && endDate.valueOf() > 0) {
             this.localBookingDays = Math.round(Math.abs((startDate - endDate) / 86400000)) + 1
+              
+              this.localSearch = 1
 
               this.dateRangeText = this.dateStart + " - " + this.dateEnd
-              this.localSearch = 1
+
+              if ( this.localBookingDays < 7) {
+                this.localSearchRate = 1
+              }
+              else {
+                this.localSearchRate = 2
+              }
 
               var self = this
               axios
