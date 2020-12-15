@@ -57,10 +57,10 @@
       },
       methods: {
         editBooking (item) {
-          alert ("Dev - to delete " + item)
+          alert ("Dev - to delete " + item.id)
         },
         deleteBooking (item) {
-          alert ("Dev - to edit " + item)
+          alert ("Dev - to edit " + item.id)
         }
       }            
     }

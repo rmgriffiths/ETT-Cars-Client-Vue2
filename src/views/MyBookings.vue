@@ -6,6 +6,7 @@
         <h2>My Bookings</h2>
         <div small text>{{noOfBookings}}</div>
 
+        <!-- MY BOOKINGS -->
         <v-row>
           <v-col sm="12" md="12" v-for="item in bookings" :key="item.id">
             <v-card class="mx-auto" outlined>
@@ -38,9 +39,9 @@
   
               </v-list-item>
               <div class="pa-3">
-                <v-btn @click="deleteBooking(item.id)" v-show="localUserLevel == 1">Delete</v-btn>
+                <v-btn @click="deleteBooking(item)" v-show="localUserLevel == 1">Delete</v-btn>
 
-                <v-btn @click="editBooking(item.id)" v-show="localUserLevel == 1">Edit</v-btn>
+                <v-btn @click="editBooking(item)" v-show="localUserLevel == 1">Edit</v-btn>
               </div>
             </v-card>
           </v-col>
@@ -82,11 +83,14 @@
         editBooking (itemId) {
           alert ("(Dev) Edit " + itemId)
         },
-        deleteBooking (itemId) {
-          alert ("(Dev) Delete " + itemId)
-        },
-
-      }    
+        deleteBooking (item) {
+          if(confirm("Do you really want to delete this booking?")){
+            axios
+              .delete("https://ettcars.herokuapp.com/api/bookings/" + item.id)
+              this.bookings.splice(this.bookings.indexOf(item), 1)
+          } 
+        } 
+      }   
     }
 </script>
 

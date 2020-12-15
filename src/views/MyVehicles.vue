@@ -1,7 +1,8 @@
 <template>
   <v-container mb-12>
+
     <v-row>
-      <v-col>
+      <v-col sm="10" offset-sm="1" md="8" offset-md="2">
         <h2>My Vehicles</h2>
         <div small text>{{noOfCars}}</div>
 
@@ -25,6 +26,8 @@
                 <v-text-field v-model="yearMade" label="Year" required></v-text-field>
                 <v-text-field v-model="registration" label="Registration" required></v-text-field>
                 <v-text-field v-model="type" label="Type" required></v-text-field>
+                <v-text-field v-model="colour" label="Colour" required></v-text-field>
+                <v-text-field v-model="maxPerson" label="Max passengers" required></v-text-field>
                 <v-text-field v-model="aircon" label="Air con" required></v-text-field>
                 <v-text-field v-model="airbags" label="Air bags" required></v-text-field>
                 <v-text-field v-model="hourRate" label="Hourly rate" required></v-text-field>
@@ -38,27 +41,22 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn @click="vehicleDialog = false">Cancel</v-btn>
-              <v-btn @click="postData">Save</v-btn>
+              <v-btn @click="postData" v-show="editMode='new'">Save</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
 
-      </v-col>
-    </v-row>
-
-    <!-- MY VEHICLES CARDS -->
-    <v-row>
-      <v-col>
+        <!-- MY VEHICLES -->
         <v-row>
-          <v-col v-for="item in vehicles" :key="item.id">
-            <v-card class="mx-auto" outlined>
+          <v-col sm="12" md="12" v-for="item in vehicles" :key="item.id">
+            <v-card class="mx-auto" outlined >
               
-              <v-carousel :show-arrows="false" hide-delimiter-background height="300">
+              <v-carousel :show-arrows="false" hide-delimiter-background class="pa-3" height="300" width="400">
                 <v-carousel-item v-for="photo in item.photos" :key="photo.id" >
-                  <v-sheet height="100%" tile>
+                  <v-sheet height="100%" tile light>
                     <v-row align="center" justify="center">
-                      <div class="display-3">
-                        <v-img v-bind:src="photo.photoUrl" width="400"></v-img>
+                      <div class="display-2">
+                          <v-img v-bind:src="photo.photoUrl" height="300" width="400"></v-img>
                       </div>
                     </v-row>
                   </v-sheet>
@@ -91,7 +89,7 @@
                     <div>Daily rate: {{item.dayRate}}</div>                    
                     <div>Weekly rate: {{item.weekRate}}</div>
                     <div>{{item.photos.length}} Photos</div>
-                 </v-list-item-content>
+                  </v-list-item-content>
 
               </v-list-item>
 
@@ -103,7 +101,6 @@
             </v-card>
           </v-col>
         </v-row>
-
       </v-col>
     </v-row>
   </v-container>
@@ -126,6 +123,7 @@
         vehicleModel: null,
         vehicleColour: null,
 
+        editMode: null,
         make: null,
         model: null,
         yearMade: null,
@@ -214,6 +212,7 @@
           registration: this.registration,
           type: this.type,
           colour: this.colour,
+          maxPerson: this.maxPerson,
           status: 0,
           aircon: this.aircon,
           airbags: this.airbags,

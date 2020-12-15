@@ -7,6 +7,7 @@
         <!--No of cars hidden--> 
         <v-text-field v-model="noOfCars" readonly small text v-show="noOfCars < 0">{{noOfCars + ' vehicles Found'}}</v-text-field>
         <v-text-field v-model="dateRangeText" readonly></v-text-field>
+        <v-btn @click="clearSearch()" light v-show="localSearch==1">Clear</v-btn>
 
         <!-- SEARCH CARD -->
         <v-dialog v-model="searchDialog" width="600">
@@ -122,7 +123,7 @@
     <!-- VEHICLE CARD -->
     <v-row>
       <v-col v-for="item in vehicles" :key="item.id">
-        <v-card class="mx-auto" outlined>
+        <v-card class="mx-auto" outlined width="400px">
 
           <v-carousel :show-arrows="false" hide-delimiter-background class="pa-3" height="300" width="400">
             <v-carousel-item v-for="photo in item.photos" :key="photo.id" >
@@ -138,8 +139,7 @@
                         
           <v-list-item three-line>
             <v-list-item-content>
-              <div v-show="localUserLevel == 1"> {{item.id}} </div>                    
-              <div><h2><b>{{item.make}} {{item.model}}</b></h2></div>                    
+              <div><h3><b>{{item.make}} {{item.model}}</b></h3></div>                    
               <div>{{item.type}}</div>                    
               <div>Year: {{item.yearMade}} {{item.colour}}</div>
               
@@ -261,7 +261,10 @@
       created() {
         EventBus.$on('loggedIn', loggedIn => {
           this.localUserStatus = loggedIn
-          console.log("Am I logged in? " + this.localUserStatus)
+          this.localUserId = this.$cookies.get('userid')
+          this.localUsername = this.$cookies.get('username')
+          this.localUserLevel = this.$cookies.get('userlevel')
+          this.localUserStatus= this.$cookies.get('userstatus')
         }),
         axios
           .get('https://ettcars.herokuapp.com/api/vehicles')
@@ -324,15 +327,13 @@
           if (startDate.valueOf() > 0 && endDate.valueOf() > 0) {
             this.localBookingDays = Math.round(Math.abs((startDate - endDate) / 86400000)) + 1
               
-              this.localSearch = 1
+              this.localSearch = 1 //Set to 1 to show search has been made
 
-              this.dateRangeText = this.dateStart + " - " + this.dateEnd
+              this.dateRangeText = new Date(this.dateStart).toLocaleDateString() + " - " + new Date(this.dateEnd).toLocaleDateString()
 
-              if ( this.localBookingDays < 7) {
-                this.localSearchRate = 1
-              }
-              else {
-                this.localSearchRate = 2
+              this.localSearchRate = 1 //Set to 1 to show day rate to charge
+              if ( this.localBookingDays > 6) {
+                this.localSearchRate = 2 //Set to 2 if 7 days or more => use week rate
               }
 
               var self = this
@@ -350,6 +351,18 @@
             
             this.searchDialog = false
           }
+        },
+        clearSearch() {
+          this.localSearch = 0 //Set to 0 to show no search has been made
+          this.dateRangeText = ""
+          this.localSearchRate = 0 //Set to 0 to hide the cost
+          this.localBookingStatus = 0 //Hides the booking button
+          axios
+            .get('https://ettcars.herokuapp.com/api/vehicles')
+            .then (res => {
+                this.noOfCars = res.data.length
+                this.vehicles = res.data
+            })         
         }
       }            
     }
