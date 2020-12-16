@@ -30,14 +30,20 @@
       };
     },
     created: function () {
-    const userId = this.localUserId
-    var self = this
-
-    axios
-      .get('https://ettcars.herokuapp.com/api/users/' + userId)
-      .then (res => {
-        self.users = res.data        
-      })
+      const userId = this.localUserId
+      var self = this
+      
+      const AuthStr = 'Bearer '.concat(this.$cookies.get('token'))
+      console.log(AuthStr)
+      
+      axios
+        .get('https://ettcars.herokuapp.com/api/users/' + userId, { 
+              headers: { Authorization: AuthStr } 
+            })
+        .then (res => {
+          self.users = res.data        
+        })
+      
     },
     methods:{
       editAccount () {
